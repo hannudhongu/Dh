@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>For Dhongu 🫶🏻🤍</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-pink: #ffe6ee;
+    --deep-pink: #d81b60;
+    --dark-purple: #1a0b2e;
+    --gold: #f5c542;
+    --card-bg: #fff9fb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at center, #fff0f5 0%, #ffd1e1 100%);
+    color: #3a1c28;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #musicBtn {
+    position: fixed; top: 15px; right: 15px; z-index: 999;
+    background: rgba(255,255,255,0.85); border: 1px solid #f48fb1;
+    border-radius: 50%; width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .scene {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 24px; text-align: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: scale(0.98);
+    background: radial-gradient(circle at center, #fff0f5 0%, #ffd1e1 100%);
+  }
+  .scene.active {
+    opacity: 1; pointer-events: auto; transform: scale(1);
+  }
+
+  /* Typography */
+  .cursive { font-family: 'Dancing Script', cursive; }
+  .serif { font-family: 'Playfair Display', serif; }
+  .subtitle { font-size: 0.95rem; color: #884a62; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .btn {
+    margin-top: 22px; padding: 12px 28px;
+    background: linear-gradient(135deg, #ff4081, #d81b60);
+    color: #fff; border: none; border-radius: 30px;
+    font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    box-shadow: 0 8px 20px rgba(216, 27, 96, 0.3);
+    transition: transform 0.2s;
+  }
+  .btn:active { transform: scale(0.95); }
+
+  /* SCENE 0: PIN LOCK SCREEN (1915) */
+  #scene0 { background: radial-gradient(circle at center, #fff0f5 0%, #ffd1e1 100%); }
+  .pin-card {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(10px);
+    padding: 28px 24px;
+    border-radius: 24px;
+    box-shadow: 0 12px 32px rgba(216, 27, 96, 0.16);
+    border: 1.5px solid #f8bbd0;
+    width: 100%; max-width: 310px;
+  }
+  .pin-dots {
+    display: flex; justify-content: center; gap: 14px; margin: 18px 0;
+  }
+  .pin-dot {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid #d81b60; background: transparent;
+    transition: all 0.2s;
+  }
+  .pin-dot.filled {
+    background: #d81b60; transform: scale(1.15);
+    box-shadow: 0 0 10px rgba(216, 27, 96, 0.45);
+  }
+  .pin-dots.shake { animation: shake 0.4s; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-6px); }
+  }
+  .keypad {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin-top: 10px;
+  }
+  .key {
+    height: 52px; border-radius: 16px; border: 1px solid #f8bbd0;
+    background: #fff; color: #ad1457; font-size: 1.25rem; font-weight: 600;
+    cursor: pointer; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.08);
+    transition: transform 0.12s, background 0.2s;
+  }
+  .key:active { transform: scale(0.92); background: #fce4ec; }
+  .key.action { font-size: 1rem; background: #fff5f8; }
+  #pinError { min-height: 20px; font-size: 0.8rem; color: #d50000; margin-top: 6px; font-weight: 500; }
+
+  /* SCENE 1: Glowing Heart & Lever */
+  .heart-glow {
+    font-size: 90px;
+    filter: drop-shadow(0 0 25px rgba(255, 23, 68, 0.6));
+    animation: heartbeat 1.3s infinite ease-in-out;
+    margin: 22px 0;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.15); }
+    45% { transform: scale(0.98); }
+    65% { transform: scale(1.12); }
+  }
+  .lever-wrap { margin-top: 18px; display: flex; flex-direction: column; align-items: center; }
+  .switch-track {
+    width: 120px; height: 50px; background: #f8bbd0;
+    border-radius: 30px; padding: 5px; cursor: pointer;
+    position: relative; box-shadow: inset 0 3px 8px rgba(0,0,0,0.15);
+    transition: background 0.4s;
+  }
+  .switch-track.on { background: #ec407a; }
+  .switch-thumb {
+    width: 40px; height: 40px; background: #fff; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .switch-track.on .switch-thumb { transform: translateX(70px); }
+  .pull-label { font-size: 0.8rem; font-weight: 600; color: #ad1457; margin-top: 10px; letter-spacing: 1px; }
+
+  /* SCENE 2: Pink Transition */
+  #scene2 { background: linear-gradient(135deg, #ad1457, #e91e63); color: #fff; }
+  #scene2 .subtitle { color: #ffcdd2; font-size: 1.1rem; }
+  #scene2 h1 { font-size: 4.2rem; text-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+
+  /* SCENE 3: Growing Heart Tree */
+  .tree-container { width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; }
+  #treeCanvas { width: 280px; height: 280px; }
+  .tree-text { margin-top: 10px; }
+  .tree-text h2 { font-size: 2.6rem; color: #d81b60; margin: 4px 0; }
+
+  /* SCENE 4: Gift Box & Rose Burst */
+  .gift-box {
+    font-size: 100px; cursor: pointer;
+    animation: bounce 2s infinite;
+    filter: drop-shadow(0 12px 18px rgba(216,27,96,0.25));
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  #roseOverlay {
+    position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden;
+  }
+  .rose-particle {
+    position: absolute; font-size: 36px;
+    transition: transform 1.2s ease-out, opacity 1.2s ease-out;
+  }
+
+  /* SCENE 5: Polaroid Collage */
+  #scene5 { overflow-y: auto; justify-content: flex-start; padding-top: 40px; }
+  .polaroid-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    width: 100%; max-width: 360px; margin: 18px 0;
+  }
+  .polaroid {
+    background: #fff; padding: 8px 8px 22px 8px; border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    transform: rotate(var(--rot));
+    opacity: 0; animation: popIn 0.5s forwards;
+    animation-delay: var(--delay);
+  }
+  .polaroid img {
+    width: 100%; height: 110px; object-fit: cover; border-radius: 3px; background: #fce4ec;
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.7) rotate(var(--rot)); }
+    to { opacity: 1; transform: scale(1) rotate(var(--rot)); }
+  }
+
+  /* SCENE 6: Secret Door */
+  #scene6 { background: radial-gradient(circle at center, #2d144d 0%, #120621 100%); color: #fff; }
+  #scene6 .subtitle { color: #d1c4e9; }
+  .door-frame {
+    width: 170px; height: 250px; margin: 22px auto;
+    border: 4px solid #f5c542; border-radius: 90px 90px 8px 8px;
+    background: radial-gradient(circle, #ffe082, #ffca28);
+    position: relative; perspective: 800px;
+    box-shadow: 0 0 35px rgba(245, 197, 66, 0.35);
+    cursor: pointer;
+  }
+  .door-inner {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; color: #3e2723;
+    font-weight: 600; padding: 10px;
+  }
+  .door-panel {
+    position: absolute; inset: 0;
+    background: linear-gradient(145deg, #3c1e66, #230f40);
+    border-radius: 85px 85px 4px 4px;
+    transform-origin: left center;
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; align-items: center; justify-content: flex-end; padding-right: 16px;
+  }
+  .door-frame.open .door-panel { transform: rotateY(-115deg); }
+  .door-lock {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #f5c542; box-shadow: 0 0 12px #f5c542;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .knock-dots { display: flex; gap: 8px; margin-top: 8px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.25); }
+  .dot.lit { background: #f5c542; box-shadow: 0 0 8px #f5c542; }
+
+  /* SCENE 7: Scratch Card */
+  .scratch-wrap {
+    position: relative; width: 270px; height: 320px; margin: 18px auto;
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.15); border: 4px solid #fff;
+  }
+  .scratch-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  #scratchCanvas { position: absolute; inset: 0; cursor: grab; touch-action: none; }
+
+  /* SCENE 8: 3x3 Jigsaw Puzzle */
+  .puzzle-grid {
+    display: grid; grid-template-columns: repeat(3, 90px); grid-template-rows: repeat(3, 90px);
+    gap: 3px; background: #fff; padding: 6px; border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12); margin: 16px auto;
+  }
+  .tile {
+    width: 90px; height: 90px; background-size: 270px 270px;
+    border-radius: 4px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .tile.selected { outline: 3px solid #d81b60; transform: scale(0.93); z-index: 2; }
+
+  /* SCENE 9: Envelope & Love Letter + Voice Note */
+  #scene9 { overflow-y: auto; justify-content: center; }
+  .envelope {
+    width: 280px; height: 180px; background: #f48fb1;
+    border-radius: 10px; position: relative; cursor: pointer;
+    box-shadow: 0 12px 25px rgba(216,27,96,0.25);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.4s;
+  }
+  .envelope::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    border-left: 140px solid transparent; border-right: 140px solid transparent;
+    border-top: 95px solid #ec407a;
+  }
+  .wax-seal {
+    width: 48px; height: 48px; background: #b71c1c; border-radius: 50%;
+    z-index: 2; display: flex; align-items: center; justify-content: center;
+    color: #ffcdd2; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  .letter-card {
+    display: none; background: #fffdf9; width: 100%; max-width: 360px;
+    padding: 22px 18px; border-radius: 16px; text-align: left;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12); border: 1px solid #f8bbd0;
+    max-height: 86vh; overflow-y: auto;
+    animation: slideUp 0.6s ease;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .letter-card h3 { color: #d81b60; margin-bottom: 10px; font-size: 1.15rem; }
+  .letter-card p { font-size: 0.88rem; line-height: 1.6; color: #4a2c38; margin-bottom: 10px; }
+  /* SCENE 10: FINAL GLOWING HEART HAPPY BIRTHDAY */
+  #scene10 {
+    background: radial-gradient(circle at center, #fff0f5 0%, #ffd1e1 100%);
+    overflow: hidden;
+  }
+  .bday-heart-wrap {
+    position: relative;
+    width: 280px; height: 260px;
+    display: flex; align-items: center; justify-content: center;
+    animation: heartbeat 1.4s infinite ease-in-out;
+  }
+  .bday-heart-svg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    filter: drop-shadow(0 0 28px rgba(255, 23, 68, 0.75)) drop-shadow(0 0 55px rgba(233, 30, 99, 0.5));
+  }
+  .bday-text-inside {
+    position: relative; z-index: 2;
+    color: #fff; text-align: center;
+    padding: 0 28px; margin-top: -12px;
+    text-shadow: 0 2px 10px rgba(136, 14, 79, 0.65);
+  }
+  .bday-text-inside h1 {
+    font-size: 2.3rem; line-height: 1.1; font-weight: 700;
+  }
+  .bday-text-inside p {
+    font-size: 0.95rem; margin-top: 6px; font-weight: 500; color: #fff8e1;
+  }
+  .floating-hearts span {
+    position: absolute; bottom: -30px; font-size: 22px;
+    animation: floatUp 5s linear infinite; opacity: 0.8;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(0.8); opacity: 0; }
+    20% { opacity: 0.9; }
+    100% { transform: translateY(-105vh) scale(1.2); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+
+<button id="musicBtn" title="Music">🎵</button>
+<div id="roseOverlay"></div>
+
+<!-- SCENE 0: SECRET PIN LOCK (1915) -->
+<section class="scene active" id="scene0">
+  <div class="pin-card">
+    <div style="font-size: 32px; margin-bottom: 6px;">🔐💗</div>
+    <h2 class="serif" style="font-size: 1.35rem; color: #ad1457;">For Dhongu 🫶🏻🤍</h2>
+    <p class="subtitle" style="font-size: 0.82rem; margin-bottom: 4px;">Enter our secret PIN to unlock</p>
+
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+    </div>
+    <div id="pinError"></div>
+
+    <div class="keypad">
+      <button class="key" onclick="pressPin('1')">1</button>
+      <button class="key" onclick="pressPin('2')">2</button>
+      <button class="key" onclick="pressPin('3')">3</button>
+      <button class="key" onclick="pressPin('4')">4</button>
+      <button class="key" onclick="pressPin('5')">5</button>
+      <button class="key" onclick="pressPin('6')">6</button>
+      <button class="key" onclick="pressPin('7')">7</button>
+      <button class="key" onclick="pressPin('8')">8</button>
+      <button class="key" onclick="pressPin('9')">9</button>
+      <button class="key action" onclick="clearPin()">Clear</button>
+      <button class="key" onclick="pressPin('0')">0</button>
+      <button class="key action" onclick="delPin()">⌫</button>
+    </div>
+  </div>
+</section>
+
+<!-- SCENE 1: Glowing Heart -->
+<section class="scene" id="scene1">
+  <p class="subtitle">Hannu made this, just for you</p>
+  <div class="heart-glow">❤️</div>
+  <h2 class="serif" id="s1Status" style="min-height: 32px; color:#ad1457;"></h2>
+  <div class="lever-wrap">
+    <div class="switch-track" id="heartSwitch">
+      <div class="switch-thumb">💓</div>
+    </div>
+    <span class="pull-label" id="pullHint">PULL A BIT 💓</span>
+  </div>
+</section>
+
+<!-- SCENE 2: Pink Transition -->
+<section class="scene" id="scene2">
+  <p class="subtitle">this one is for you, Dhongu 🫶🏻🤍...</p>
+  <h1 class="cursive">I Love You</h1>
+</section>
+
+<!-- SCENE 3: Growing Heart Tree -->
+<section class="scene" id="scene3">
+  <div class="tree-container">
+    <canvas id="treeCanvas" width="280" height="280"></canvas>
+    <div class="tree-text">
+      <p class="subtitle">made for you, by hand</p>
+      <h2 class="cursive">I love you</h2>
+      <p class="subtitle">and every ordinary day with you</p>
+    </div>
+    <button class="btn" onclick="goScene(4)">Continue →</button>
+  </div>
+</section>
+
+<!-- SCENE 4: Gift Box & Roses -->
+<section class="scene" id="scene4">
+  <h2 class="serif" style="font-size:1.8rem; margin-bottom:8px;">For you, Dhongu 🫶🏻🤍</h2>
+  <p class="subtitle">(tap the gift to open)</p>
+  <div class="gift-box" id="giftBox">🎁</div>
+</section>
+
+<!-- SCENE 5: Polaroid Memories -->
+<section class="scene" id="scene5">
+  <h2 class="serif" style="font-size:1.7rem; color:#c2185b;">From Hannu to Dhongu 🫶🏻🤍</h2>
+  <p class="subtitle">This is how much I love you.</p>
+  <div class="polaroid-grid" id="polaroidGrid"></div>
+  <button class="btn" onclick="goScene(6)">See what Hannu built for you ✨</button>
+</section>
+
+<!-- SCENE 6: Secret Door -->
+<section class="scene" id="scene6">
+  <h2 class="serif" style="font-size:1.6rem;">Hannu built you a secret</h2>
+  <p class="subtitle" id="knockText">Knock three times. Touch the lock. (0/3)</p>
+  <div class="knock-dots">
+    <div class="dot" id="d1"></div>
+    <div class="dot" id="d2"></div>
+    <div class="dot" id="d3"></div>
+  </div>
+  <div class="door-frame" id="doorFrame">
+    <div class="door-inner">
+      <span style="font-size:28px;">✨</span>
+      <p class="serif" style="font-size:1.15rem; margin-top:6px;">Come in,<br>Dhongu 🫶🏻🤍</p>
+    </div>
+    <div class="door-panel">
+      <div class="door-lock">🔒</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENE 7: Scratch Card -->
+<section class="scene" id="scene7">
+  <h2 class="serif" style="font-size:1.7rem; color:#c2185b;">Our photo</h2>
+  <p class="subtitle">Each visit reveals a new memory. Scratch gently to see it.</p>
+  <div class="scratch-wrap">
+    <img id="scratchImg" src="" alt="Memory">
+    <canvas id="scratchCanvas" width="270" height="320"></canvas>
+  </div>
+  <button class="btn" id="scratchNextBtn" style="display:none;" onclick="goScene(8)">Next Surprise →</button>
+</section>
+
+<!-- SCENE 8: Jigsaw Puzzle -->
+<section class="scene" id="scene8">
+  <h2 class="serif" style="font-size:1.6rem; color:#c2185b;">This photo fell apart.</h2>
+  <p class="subtitle" id="puzzleHint">Tap two pieces to swap & put it back together!</p>
+  <div class="puzzle-grid" id="puzzleGrid"></div>
+  <button class="btn" id="puzzleNextBtn" style="display:none;" onclick="goScene(9)">Open Letter 💌</button>
+</section>
+
+<!-- SCENE 9: Sealed Envelope & Love Letter -->
+<section class="scene" id="scene9">
+  <div id="envelopeBox" style="display:flex; flex-direction:column; align-items:center;">
+    <p class="subtitle" style="margin-bottom:16px;">A letter for you, Dhongu 🫶🏻🤍...</p>
+    <div class="envelope" onclick="openEnvelope()">
+      <div class="wax-seal">❤️</div>
+    </div>
+    <p class="subtitle" style="margin-top:14px;">(Tap the seal to open)</p>
+  </div>
+
+  <div class="letter-card" id="letterCard">
+    <h3>Hannu wrote you 💌</h3>
+    <p>Hey Dhongu 🫶🏻🤍</p>
+    <p>I don't think I tell you this enough, but meeting you has been one of the best things that's ever happened to me.</p>
+    <p>Thank you for being patient with me, making me laugh, listening to my endless talks, and loving me even on the days I'm difficult.</p>
+    <p>No matter how busy life gets, I hope you always remember one thing... you'll always be my favorite person. 🥺</p>
+    <p>I love you more than words can ever explain. ❤️<br><strong>— Hannu</strong></p>
+
+    <div style="text-align:center;">
+      <button class="btn" style="margin-top:16px; width:100%;" onclick="goScene(10)">One Final Surprise 🎂✨</button>
+    </div>
+  </div>
+</section>
+
+<!-- SCENE 10: FINAL GLOWING HEART HAPPY BIRTHDAY -->
+<section class="scene" id="scene10">
+  <div class="floating-hearts" id="floatingHearts"></div>
+  <p class="subtitle" style="font-weight:500; color:#ad1457; margin-bottom: 12px;">Forever & Always 🫶🏻🤍</p>
+
+  <div class="bday-heart-wrap">
+    <svg class="bday-heart-svg" viewBox="0 0 200 185">
+      <defs>
+        <radialGradient id="heartGrad" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#ff6090"/>
+          <stop offset="60%" stop-color="#e91e63"/>
+          <stop offset="100%" stop-color="#ad1457"/>
+        </radialGradient>
+      </defs>
+      <path fill="url(#heartGrad)" d="M100,175 C100,175 12,118 12,56 C12,26 35,6 62,6 C80,6 94,16 100,29 C106,16 120,6 138,6 C165,6 188,26 188,56 C188,118 100,175 100,175 Z"/>
+    </svg>
+    <div class="bday-text-inside">
+      <h1 class="cursive">Happy<br>Birthday</h1>
+      <p>Dhongu 🫶🏻🤍</p>
+    </div>
+  </div>
+
+  <p class="serif" style="margin-top: 22px; font-size: 1.15rem; color: #880e4f; max-width: 300px;">
+    May your day be as bright and lovely as your smile.
+  </p>
+  <p style="margin-top: 8px; font-size: 0.9rem; font-weight: 600; color: #c2185b;">— Yours, Hannu ❤️</p>
+</section>
+
+<script>
+  // ==========================================
+  // APNI PHOTOS & SECRET PIN SETTINGS
+  // ==========================================
+  const SECRET_PIN = "1915";
+
+  const PHOTOS = {
+    collage: [
+      "Snapchat-2099129965.jpg",
+      "Snapchat-1436322956.jpg",
+      "Snapchat-1707303954.jpg",
+      "Snapchat-1955118313.jpg",
+      "Snapchat-846633799.jpg",
+      "Snapchat-1371469710.jpg"
+    ],
+    scratch: "Snapchat-2099129965.jpg",
+    puzzle: "Snapchat-1436322956.jpg"
+  };
+
+  // Music toggle
+  const bgMusic = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+  let musicPlaying = false;
+  musicBtn.onclick = () => {
+    if (musicPlaying) { bgMusic.pause(); musicBtn.textContent = '🔇'; }
+    else { bgMusic.play().catch(()=>{}); musicBtn.textContent = '🎵'; }
+    musicPlaying = !musicPlaying;
+  };
+
+  function goScene(num) {
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+    document.getElementById('scene' + num).classList.add('active');
+    if (num === 3) drawHeartTree();
+    if (num === 5) loadPolaroids();
+    if (num === 7) initScratch();
+    if (num === 8) initPuzzle();
+    if (num === 10) spawnFloatingHearts();
+  }
+
+  // SCENE 0: PIN LOGIC (1915)
+  let enteredPin = "";
+  function updatePinUI() {
+    const dots = document.querySelectorAll('.pin-dot');
+    dots.forEach((d, idx) => {
+      d.classList.toggle('filled', idx < enteredPin.length);
+    });
+  }
+  function pressPin(digit) {
+    if (enteredPin.length >= 4) return;
+    document.getElementById('pinError').textContent = "";
+    enteredPin += digit;
+    updatePinUI();
+
+    if (enteredPin.length === 4) {
+      if (enteredPin === SECRET_PIN) {
+        bgMusic.play().then(() => { musicPlaying = true; }).catch(()=>{});
+        setTimeout(() => goScene(1), 350);
+      } else {
+        const dotsWrap = document.getElementById('pinDots');
+        dotsWrap.classList.add('shake');
+        document.getElementById('pinError').textContent = "Wrong PIN, try again Dhongu 💔";
+        setTimeout(() => {
+          dotsWrap.classList.remove('shake');
+          enteredPin = "";
+          updatePinUI();
+        }, 550);
+      }
+    }
+  }
+  function delPin() {
+    enteredPin = enteredPin.slice(0, -1);
+    updatePinUI();
+  }
+  function clearPin() {
+    enteredPin = "";
+    document.getElementById('pinError').textContent = "";
+    updatePinUI();
+  }
+
+  // SCENE 1: Switch Logic
+  const heartSwitch = document.getElementById('heartSwitch');
+  heartSwitch.onclick = () => {
+    heartSwitch.classList.add('on');
+    document.getElementById('s1Status').textContent = "Still you. Always you, Dhongu.";
+    document.getElementById('pullHint').textContent = "UNLOCKED ❤️";
+    if (!musicPlaying) bgMusic.play().then(() => { musicPlaying = true; }).catch(()=>{});
+    setTimeout(() => goScene(2), 1400);
+    setTimeout(() => goScene(3), 3600);
+  };
+
+  // SCENE 3: Animated Heart Tree
+  function drawHeartTree() {
+    const canvas = document.getElementById('treeCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, 280, 280);
+
+    ctx.strokeStyle = '#6d4c41';
+    ctx.lineCap = 'round';
+    function branch(x, y, len, angle, width, depth) {
+      if (depth === 0) {
+        const colors = ['#ff4081', '#f50057', '#ff80ab', '#ffd54f', '#e91e63'];
+        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+        ctx.font = '14px serif';
+        ctx.fillText('❤', x - 6, y + 4);
+        return;
+      }
+      ctx.beginPath();
+      ctx.lineWidth = width;
+      ctx.moveTo(x, y);
+      const nx = x + len * Math.cos(angle);
+      const ny = y + len * Math.sin(angle);
+      ctx.lineTo(nx, ny);
+      ctx.stroke();
+      setTimeout(() => {
+        branch(nx, ny, len * 0.76, angle - 0.42, width * 0.7, depth - 1);
+        branch(nx, ny, len * 0.76, angle + 0.42, width * 0.7, depth - 1);
+      }, 140);
+    }
+    branch(140, 265, 58, -Math.PI / 2, 10, 6);
+  }
+
+  // SCENE 4: Gift & Roses Burst
+  document.getElementById('giftBox').onclick = () => {
+    const overlay = document.getElementById('roseOverlay');
+    for (let i = 0; i < 45; i++) {
+      const r = document.createElement('div');
+      r.className = 'rose-particle';
+      r.textContent = i % 3 === 0 ? '💖' : '🌹';
+      r.style.left = '50%';
+      r.style.top = '50%';
+      overlay.appendChild(r);
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 120 + Math.random() * 400;
+      requestAnimationFrame(() => {
+        r.style.transform = `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px) rotate(${Math.random()*360}deg)`;
+        r.style.opacity = '0';
+      });
+      setTimeout(() => r.remove(), 1300);
+    }
+    setTimeout(() => goScene(5), 950);
+  };
+
+  // SCENE 5: Polaroids (Fallback image if local photo missing)
+  const fallbackImg = "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&q=80";
+  function loadPolaroids() {
+    const grid = document.getElementById('polaroidGrid');
+    grid.innerHTML = '';
+    const rots = ['-4deg', '3deg', '2deg', '-3deg', '-2deg', '4deg'];
+    PHOTOS.collage.forEach((src, i) => {
+      const div = document.createElement('div');
+      div.className = 'polaroid';
+      div.style.setProperty('--rot', rots[i % rots.length]);
+      div.style.setProperty('--delay', (i * 0.25) + 's');
+      div.innerHTML = `<img src="${src}" onerror="this.src='${fallbackImg}'" alt="Memory ${i+1}">`;
+      grid.appendChild(div);
+    });
+  }
+
+  // SCENE 6: Knock 3 times
+  let knocks = 0;
+  const doorFrame = document.getElementById('doorFrame');
+  doorFrame.onclick = () => {
+    if (knocks >= 3) return;
+    knocks++;
+    document.getElementById('d' + knocks).classList.add('lit');
+    document.getElementById('knockText').textContent = `Knock three times. Touch the lock. (${knocks}/3)`;
+    if (knocks === 3) {
+      doorFrame.classList.add('open');
+      setTimeout(() => goScene(7), 1600);
+    }
+  };
+
+  // SCENE 7: Scratch Card
+  function initScratch() {
+    const imgEl = document.getElementById('scratchImg');
+    imgEl.src = PHOTOS.scratch;
+    imgEl.onerror = () => { imgEl.src = fallbackImg; };
+
+    const canvas = document.getElementById('scratchCanvas');
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, 270, 320);
+    grad.addColorStop(0, '#f5c542');
+    grad.addColorStop(1, '#d49b1a');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 270, 320);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 18px Poppins';
+    ctx.textAlign = 'center';
+    ctx.fillText('✨ Scratch Here ✨', 135, 165);
+
+    let scratching = false, strokes = 0;
+    function scratch(e) {
+      if (!scratching) return;
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(clientX - rect.left, clientY - rect.top, 24, 0, Math.PI * 2);
+      ctx.fill();
+      strokes++;
+      if (strokes > 35) document.getElementById('scratchNextBtn').style.display = 'inline-block';
+    }
+    canvas.onmousedown = () => scratching = true;
+    canvas.onmouseup = () => scratching = false;
+    canvas.onmousemove = scratch;
+    canvas.ontouchstart = () => scratching = true;
+    canvas.ontouchend = () => scratching = false;
+    canvas.ontouchmove = scratch;
+  }
+
+  // SCENE 8: 3x3 Swap Puzzle
+  function initPuzzle() {
+    const grid = document.getElementById('puzzleGrid');
+    grid.innerHTML = '';
+    let order = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    [order[0], order[4]] = [order[4], order[0]];
+    [order[2], order[7]] = [order[7], order[2]];
+    [order[1], order[5]] = [order[5], order[1]];
+
+    // Check if local puzzle image exists, else fallback
+    const testImg = new Image();
+    let activePuzzleSrc = PHOTOS.puzzle;
+    testImg.onerror = () => { activePuzzleSrc = fallbackImg; render(); };
+    testImg.src = PHOTOS.puzzle;
+
+    let selectedIdx = null;
+    function render() {
+      grid.innerHTML = '';
+      order.forEach((piece, idx) => {
+        const tile = document.createElement('div');
+        tile.className = 'tile' + (selectedIdx === idx ? ' selected' : '');
+        const col = piece % 3;
+        const row = Math.floor(piece / 3);
+        tile.style.backgroundImage = `url('${activePuzzleSrc}')`;
+        tile.style.backgroundPosition = `-${col * 90}px -${row * 90}px`;
+        tile.onclick = () => {
+          if (selectedIdx === null) {
+            selectedIdx = idx; render();
+          } else {
+            [order[selectedIdx], order[idx]] = [order[idx], order[selectedIdx]];
+            selectedIdx = null; render();
+            if (order.every((v, i) => v === i)) {
+              document.getElementById('puzzleHint').textContent = "Yay! You fixed our memory ❤️";
+              document.getElementById('puzzleNextBtn').style.display = 'inline-block';
+            }
+          }
+        };
+        grid.appendChild(tile);
+      });
+    }
+    render();
+  }
+
+  // SCENE 9: Envelope & Love Letter
+  function openEnvelope() {
+    document.getElementById('envelopeBox').style.display = 'none';
+    document.getElementById('letterCard').style.display = 'block';
+  }
+
+  // SCENE 10: Floating Hearts for Birthday
+  function spawnFloatingHearts() {
+    const container = document.getElementById('floatingHearts');
+    container.innerHTML = '';
+    const icons = ['❤️', '💖', '🤍', '🫶🏻', '✨', '🎂'];
+    for (let i = 0; i < 18; i++) {
+      const span = document.createElement('span');
+      span.textContent = icons[i % icons.length];
+      span.style.left = (Math.random() * 92) + '%';
+      span.style.animationDelay = (Math.random() * 4) + 's';
+      span.style.animationDuration = (4 + Math.random() * 3) + 's';
+      container.appendChild(span);
+    }
+  }
+</script>
+</body>
+</html>
